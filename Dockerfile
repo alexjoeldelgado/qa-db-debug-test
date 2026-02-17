@@ -13,9 +13,11 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends postgresql postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
-# Configure PostgreSQL authentication
-RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/11/main/pg_hba.conf && \
-    echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
+# Configure PostgreSQL authentication (version-agnostic)
+RUN PGVER="$(ls /etc/postgresql | sort -V | tail -n 1)" && \
+    echo "Using PostgreSQL $PGVER" && \
+    echo "host all all 0.0.0.0/0 md5" >> "/etc/postgresql/${PGVER}/main/pg_hba.conf" && \
+    echo "listen_addresses='*'" >> "/etc/postgresql/${PGVER}/main/postgresql.conf"
 
 # Start PostgreSQL, create the database, user, and decode and execute the Base64 SQL commands
 RUN service postgresql start && \
