@@ -35,7 +35,7 @@ describe('Database Test', function () {
 
   it('should create a user with valid credentials', async function () {
     try {
-      await client.query(`
+      const result = await client.query(`
         INSERT INTO users (
           email,
           username,
@@ -45,39 +45,21 @@ describe('Database Test', function () {
           date_of_birth,
           phone_number
         ) VALUES (
-          'user1@example.com',
-          'uniqueuser',
-          '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.i77i',
-          'First',
-          'User',
-          '1990-01-15',
-          '+1-555-000-0001'
-        )`);
-      
-      // Query to verify the user was created
-      const unique = Date.now();
-      const username = `testuser_${unique}`;
-      const email = `test.user+${unique}@example.com`;
-      
-      await client.query(`
-        INSERT INTO users (
-          email, username, password_hash, first_name, last_name, date_of_birth, phone_number
-        ) VALUES (
           $1, $2, $3, $4, $5, $6, $7
         )
+        RETURNING username
       `, [
-        email,
-        username,
+        'user1@example.com',
+        'uniqueuser',
         '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.i77i',
-        'Test',
+        'First',
         'User',
         '1990-01-15',
-        '+1-555-000-0000'
+        '+1-555-000-0001'
       ]);
+  
       expect(result.rowCount).to.equal(1);
-
-      
-      expect(result.rows.length).to.equal(1);
+      expect(result.rows).to.have.lengthOf(1);
       expect(result.rows[0].username).to.equal('uniqueuser');
     } catch (error) {
       throw new Error('Failed to create user: ' + error.message);
