@@ -39,17 +39,19 @@ describe('Database Test', function () {
         INSERT INTO users (
           email,
           username,
+          password_hash,
           first_name,
           last_name,
           date_of_birth,
           phone_number
         ) VALUES (
-          'test.user@example.com',
-          'testuser123',
-          'Test',
+          'user1@example.com',
+          'uniqueuser',
+          '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.i77i',
+          'First',
           'User',
           '1990-01-15',
-          '+1-555-000-0000'
+          '+1-555-000-0001'
         )`);
       
       // Query to verify the user was created
