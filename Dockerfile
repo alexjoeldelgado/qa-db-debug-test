@@ -1,5 +1,5 @@
 # Use a Node.js image
-FROM node:14
+FROM node:18-bullseye
 
 # Set environment variables
 ENV LANG=C.UTF-8 \
