@@ -55,25 +55,25 @@ describe('Database Test', function () {
         )`);
       
       // Query to verify the user was created
-      const result = await client.query(`
-  INSERT INTO users (
-    email,
-    username,
-    password_hash,
-    first_name,
-    last_name,
-    date_of_birth,
-    phone_number
-  ) VALUES (
-    'test.user@example.com',
-    'uniqueuser',
-    '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.i77i',
-    'Test',
-    'User',
-    '1990-01-15',
-    '+1-555-000-0000'
-  )
-`);
+      const unique = Date.now();
+      const username = `testuser_${unique}`;
+      const email = `test.user+${unique}@example.com`;
+      
+      await client.query(`
+        INSERT INTO users (
+          email, username, password_hash, first_name, last_name, date_of_birth, phone_number
+        ) VALUES (
+          $1, $2, $3, $4, $5, $6, $7
+        )
+      `, [
+        email,
+        username,
+        '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.i77i',
+        'Test',
+        'User',
+        '1990-01-15',
+        '+1-555-000-0000'
+      ]);
       expect(result.rowCount).to.equal(1);
 
       
