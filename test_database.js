@@ -55,10 +55,10 @@ describe('Database Test', function () {
         )`);
       
       // Query to verify the user was created
-      const result = await client.query(`
-        SELECT * FROM users 
-        WHERE email = 'test.user@example.com'
-      `);
+      const result = await client.query(`INSERT INTO users (...) VALUES (...)`);
+      expect(result.rowCount).to.equal(1);
+
+      
       
       expect(result.rows.length).to.equal(1);
       expect(result.rows[0].username).to.equal('uniqueuser');
