@@ -59,7 +59,6 @@ describe('Database Test', function () {
       expect(result.rowCount).to.equal(1);
 
       
-      
       expect(result.rows.length).to.equal(1);
       expect(result.rows[0].username).to.equal('uniqueuser');
     } catch (error) {
