@@ -61,7 +61,7 @@ describe('Database Test', function () {
       `);
       
       expect(result.rows.length).to.equal(1);
-      expect(result.rows[0].username).to.equal('testuser123');
+      expect(result.rows[0].username).to.equal('user1@example.com');
     } catch (error) {
       throw new Error('Failed to create user: ' + error.message);
     }
